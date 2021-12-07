@@ -1,0 +1,280 @@
+/* Add your styles here */
+
+@font-face {
+	font-family: "MyWebFont";
+	src: url("myfont.woff2") format("woff2"), url("myfont.woff") format("woff");
+}
+
+html,
+body {
+	overflow-x: hidden;
+	overflow: hidden;
+}
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	font-family: "roboto";
+	background-color: #fff !important;
+}
+
+.maps-container {
+	max-width: 1900px;
+	margin: auto;
+	display: block;
+}
+#map {
+	height: 100vh;
+	width: 85%;
+	margin: auto;
+	display: block;
+	background-color: #fff !important;
+	transform: scale(0.8);
+	font-size: 15px;
+	z-index: 999;
+	margin-top: -80px;
+	margin-left: 150px;
+}
+
+/* path:hover {
+  fill: #47B8E0;
+} */
+
+#box {
+	position: absolute;
+	top: 0;
+	margin-top: -100px;
+	height: 115vh;
+	width: 100%;
+	margin: auto;
+	display: block;
+	background-color: transparent !important;
+}
+
+.leaflet-control-container {
+	display: none !important;
+}
+
+/* path.leaflet-interactive {
+    fill: #FF7475;
+    fill-opacity: 1;
+    stroke: #fff;
+  } */
+
+.flex-info {
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+}
+
+.grid-content {
+	position: relative;
+	right: 50px;
+	bottom: 0;
+	width: 350px;
+	max-width: 90%;
+	padding: 20px 10px;
+	height: 500px;
+	overflow: auto;
+	background-color: #fff !important;
+	z-index: 8000;
+	color: #004079;
+}
+
+.none {
+	display: none;
+}
+
+.grid-shop-index {
+	margin-top: 100px;
+}
+.grid-shop-index .bottom {
+	z-index: 999999;
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	opacity: 0;
+}
+
+.pink-color {
+	color: #ff6b6b;
+}
+.bottom a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #004079 !important;
+	background-color: #fff;
+	border: none;
+	-webkit-box-shadow: inset 0 0 0 2px #004079;
+	-moz-box-shadow: inset 0 0 0 2px #004079;
+	box-shadow: inset 0 0 0 2px #004079;
+}
+
+.grid-content .map-item {
+	margin-top: 20px;
+	border-bottom: 1px solid #e0e0e0;
+	padding-bottom: 20px;
+	padding-right: 10px;
+}
+
+.grid-content .shop-values {
+	margin-top: -15px;
+}
+
+.grid-content .title-shop {
+	font-size: 1.09em;
+}
+.grid-content .map-item .title {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #ff6b6b;
+}
+.grid-content .map-item a {
+	text-decoration: none !important;
+	transition: 0.3s ease;
+}
+
+.grid-content .map-item .qualification {
+	margin-top: 1px;
+	text-transform: capitalize;
+	color: #ff6b6b;
+}
+.grid-content .see-shop {
+	text-decoration: none;
+	transition: all 0.3s ease;
+	display: block !important;
+	margin-top: -10px;
+	color: #004079 !important;
+	font-weight: bold;
+}
+
+.grid-content .map-item .title:hover {
+	color: #004079;
+}
+.grid-content .see-shop:hover {
+	color: #ff6b6b !important;
+}
+.grid-content .map-item .adress {
+	margin-top: 8px;
+}
+.grid-content .map-item .see-shop {
+	display: inline-block;
+	text-decoration: underline;
+}
+
+.title a {
+	font-size: 10px;
+	font-weight: bold !important;
+	display: block;
+	color: #47b8e0 !important;
+}
+
+.centered-container,
+.c-shop_index_search_filters {
+	position: fixed;
+	max-width: 100%;
+	top: 0px;
+	left: 0;
+	right: 0;
+	min-height: 100px;
+	padding: 30px;
+	background: #34314c;
+	z-index: 999999999999;
+	margin-bottom: 290px;
+}
+
+select,
+input {
+	outline: none;
+	width: 300px;
+	padding: 15px 30px;
+	border: none;
+	border-radius: 4px;
+	background-color: #fff;
+	color: #34314c;
+}
+
+select {
+	cursor: pointer;
+}
+
+.one-col {
+	max-width: 910px;
+	margin: auto;
+}
+
+.all-filters {
+	display: flex;
+
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+label {
+	margin-bottom: 15px;
+	display: block;
+	color: #47b8e0;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+label {
+	margin-bottom: 15px;
+	display: block;
+	color: #47b8e0;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.button-medium {
+	outline: none;
+	cursor: pointer;
+	border: none;
+	border-radius: 4px;
+	padding: 16px 17px;
+	background-color: #47b8e0;
+	color: #fff;
+	margin-left: 6.5px;
+	transition: 0.3s ease-in;
+}
+.button-medium:nth-child(2) {
+	margin-right: 11px;
+}
+
+.button-medium:hover {
+	background-color: #ff7475;
+}
+
+.msg-error {
+	display: inline-block;
+	width: 450px;
+	margin-top: 10px;
+	line-height: 1.5;
+	color: #ff7475;
+}
+
+.disabled {
+	pointer-events: none;
+}
+
+@media screen and (max-width: 500px) {
+	#map,
+	#box {
+		display: none;
+	}
+	.grid-content {
+		width: 100%;
+		margin: auto;
+		margin-top: 60px;
+		right: 0;
+		display: block;
+	}
+	.filter {
+		max-width: 100%;
+	}
+	input {
+		max-width: 55%;
+	}
+}

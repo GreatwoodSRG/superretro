@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+        <link rel="stylesheet" href="css/style.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+		/>
+	</head>
+	<body>
+            <div class="centered-container cc-shop_index_search_filters flex-info">
+                        <div class="filter">
+                            <div class="content">                       
+                                <label for="shop_name">Saisir une ville ou un code postal</label>
+                                
+                                <input type="search" id="search" value=""/> <button type='submit' id="submit" class="button-medium">OK</button>
+                               
+                            </div>
+                            <div class="msg-error"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="maps-container"> 
+            <div class="grid-shop-index">
+                <div class="flex-info">
+                    <div id="map"></div>
+                    <div id="box"></div>
+                    <div class="grid-content">     
+                        <div class="info-panel-title"></div>
+                        <div class="info-panel">
+                            <p class="context"></p>
+                            <div class="marker-rich-infos"></div>
+                        </div>
+                    </div>
+                    <div class="controls bottom">
+                    <a class="button button--secondary back-button" id="return-back" href="" ><i class="icon icon_chevron_left"></i> Retour à la carte globale</a>
+                </div>
+            </div>
+            </div>
+		<script src="js/script.js"></script>
+	</body>
+</html>
