@@ -430,7 +430,7 @@ $.when(counties).done(function () {
 						: "" || nom === "Occitanie"
 						? new L.LatLng(43.704, 2.44305)
 						: "" || nom === "Provence-Alpes-Côte d'Azur" || nom === "Normandie"
-						? new L.LatLng(48.878847, 0.515749)
+						? new L.LatLng(43.99471817979828, 7.007371525764465)
 						: ""
 						? new L.LatLng(43.8408, 6.27178)
 						: "" || nom === "Pays de la Loire"
@@ -568,8 +568,8 @@ $.when(counties).done(function () {
 			return new L.CircleMarker(
 				latlng,
 				{
-					radius: 2,
-					fillColor: "black",
+					radius: 4,
+					fillColor: "red",
 					weight: 1,
 					opacity: 1,
 					fillOpacity: 0.5
