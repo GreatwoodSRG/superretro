@@ -1,14 +1,14 @@
 let users = [];
 let datasShopCode = [];
 const urlMap =
-	"https://raw.githubusercontent.com/speedlife509/retrogames/main/regions.geojson";
+	"https://raw.githubusercontent.com/GreatwoodSRG/superretro/master/regions.geojson";
 const searchDatas = document.querySelector("#search");
 const searchUserVal = document.querySelector(".search-user-val");
 const items = document.querySelector(".items");
 const submitBtn = document.querySelector("#submit");
 
 const urlDepartments =
-	"https://raw.githubusercontent.com/speedlife509/retrogames/main/departements.geojson";
+	"https://raw.githubusercontent.com/GreatwoodSRG/superretro/master/departements.geojson";
 // let output = "";
 let outputShops = "";
 // let outputs = "";
