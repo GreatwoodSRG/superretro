@@ -5,6 +5,8 @@
 	src: url("myfont.woff2") format("woff2"), url("myfont.woff") format("woff");
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,900;1,300&display=swap");
+
 html,
 body {
 	overflow-x: hidden;
@@ -16,6 +18,13 @@ body {
 	padding: 0;
 	font-family: "roboto";
 	background-color: #fff !important;
+}
+
+.fa-size {
+	font-size: 12px;
+	font-weight: bold;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .maps-container {
@@ -32,7 +41,7 @@ body {
 	transform: scale(0.8);
 	font-size: 15px;
 	z-index: 999;
-	margin-top: -80px;
+	margin-top: 0px;
 	margin-left: 150px;
 }
 
@@ -43,7 +52,7 @@ body {
 #box {
 	position: absolute;
 	top: 0;
-	margin-top: -100px;
+	margin-top: 0px;
 	height: 115vh;
 	width: 100%;
 	margin: auto;
@@ -91,14 +100,14 @@ body {
 }
 .grid-shop-index .bottom {
 	z-index: 999999;
-	position: absolute;
+	position: fixed;
 	bottom: 20px;
 	left: 20px;
 	opacity: 0;
 }
 
 .pink-color {
-	color: #ff6b6b;
+	color: #003455;
 }
 .bottom a {
 	display: block;
@@ -121,15 +130,17 @@ body {
 
 .grid-content .shop-values {
 	margin-top: -15px;
+	color: #282828;
 }
 
 .grid-content .title-shop {
 	font-size: 1.09em;
+	color: #282828;
 }
 .grid-content .map-item .title {
-	font-size: 1.2em;
-	font-weight: bold;
-	color: #ff6b6b;
+	font-size: 1.3em;
+	font-weight: 900;
+	color: #005773;
 }
 .grid-content .map-item a {
 	text-decoration: none !important;
@@ -139,25 +150,31 @@ body {
 .grid-content .map-item .qualification {
 	margin-top: 1px;
 	text-transform: capitalize;
-	color: #ff6b6b;
+	color: #005773;
 }
 .grid-content .see-shop {
 	text-decoration: none;
 	transition: all 0.3s ease;
-	display: block !important;
+	display: inline-block !important;
+	padding: 6px 12px;
 	margin-top: -10px;
-	color: #004079 !important;
+	color: #ffffff !important;
 	font-weight: bold;
+	background-color: #f0b31a;
+	border-radius: 10px;
 }
 
 .grid-content .map-item .title:hover {
-	color: #004079;
+	color: #ffc023;
 }
 .grid-content .see-shop:hover {
-	color: #ff6b6b !important;
+	color: #fff !important;
+	background-color: #268699 !important;
 }
 .grid-content .map-item .adress {
 	margin-top: 8px;
+	color: #005773;
+	font-weight: 500;
 }
 .grid-content .map-item .see-shop {
 	display: inline-block;
@@ -180,8 +197,8 @@ body {
 	right: 0;
 	min-height: 100px;
 	padding: 30px;
-	background: #34314c;
-	z-index: 999999999999;
+	background: #003455;
+	z-index: 9999;
 	margin-bottom: 290px;
 }
 
@@ -244,7 +261,7 @@ label {
 }
 
 .button-medium:hover {
-	background-color: #ff7475;
+	background-color: #ffc023;
 }
 
 .msg-error {
@@ -277,4 +294,20 @@ label {
 	input {
 		max-width: 55%;
 	}
+}
+
+/* CHANGE SVG CIRCLE MARKER COLOR */
+
+.circleMarker {
+	fill: #268699;
+	stroke: #268699;
+}
+
+.hide {
+	fill: transparent;
+	stroke: transparent;
+}
+
+.activeLayer {
+	fill: #003455;
 }

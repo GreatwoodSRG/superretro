@@ -1,11 +1,15 @@
 import { map } from "./basemaps.js";
-import boxToFly from "./boxToFly.js";
 
-const urlMap = "./regions.geojson",
-	urlDepartments = "./departements.geojson";
+// const urlMap =
+// 		"https://raw.githubusercontent.com/GreatwoodSRG/superretro/master/regions.geojson",
+// 	urlDepartments =
+// 		"https://raw.githubusercontent.com/GreatwoodSRG/superretro/master/departements.geojson";
+
+const urlMap = "./reg.geojson",
+	urlDepartments = "./map2.geojson";
 
 const searchDatas = document.querySelector("#search"),
-	searhcShopsVal = document.querySelector(".search-shops-val"),
+	searchUserVal = document.querySelector(".search-user-val"),
 	submitBtn = document.querySelector("#submit");
 
 let shopMax = [],
@@ -14,7 +18,13 @@ let shopMax = [],
 	users = [],
 	datasShopCode = [],
 	newData = [],
-	layerActived = false;
+	selectData = [],
+	nums = [],
+	names = [],
+	data = [],
+	outputShops = "",
+	layerActived = false,
+	countLayer = 0;
 
 //Fetch initialMap
 const fetchInitialMap = () => {
@@ -25,6 +35,9 @@ const fetchInitialMap = () => {
 				.then((res) => {
 					//My users array = now to my object of all users
 					users = res;
+					//Sort alphabetically
+					// users.sort((a,b) => a.login.localeCompare(b.login));
+					//Show all user inside my function showUsers
 
 					const filterPointValues = users.features.filter((datas) => {
 						return datas.geometry.type === "Point";
@@ -40,7 +53,7 @@ const fetchInitialMap = () => {
 						return a.shopCode - b.shopCode;
 					});
 
-					showShops(allDatas);
+					showUsers(allDatas);
 				})
 				.catch((err) => console.log(err));
 		})
@@ -57,30 +70,9 @@ var counties = $.ajax({
 	}
 });
 
-$.when(counties).done(function (doto) {
+$.when(counties).done(function () {
 	function zoomToFeature(e) {
 		map.fitBounds(e.target.getBounds(209));
-	}
-
-	function showData(layers) {
-		dataItems.filter((data) => {
-			var { shop, shopCode, adress, url, qualification } = data;
-			const shopCodeShort = shopCode;
-			let newShop = shopCodeShort.toString();
-			newShop = newShop.substring(0, 2);
-			return data.shop === layers.feature.properties.shop
-				? $(".grid-content .info-panel .marker-rich-infos").html(
-						` 
-							<div class="map-item">
-								<a href="${url}" class="title" target="_blank">${shop}(${newShop})</a><br/>
-								<i class="qualification">${qualification}</i>
-								<p class="adress">${adress}</p>
-								<a href="${url}" target="_blank" class="see-shop"> Page infos <i class="fa-solid fa-chevron-right fa-size"></i></a>
-					  		</div>
-				  			`
-				  )
-				: "";
-		});
 	}
 
 	function openLayer(e) {
@@ -97,7 +89,22 @@ $.when(counties).done(function (doto) {
 			return onEachFeature();
 		});
 
-		showData(layers);
+		// Return 1 specific data onclick marker
+		dataItems.filter((data, index) => {
+			const shopCodeShort = data.shopCode;
+			let newShop = shopCodeShort.toString();
+			newShop = newShop.substring(0, 2);
+			return data.shop === layers.feature.properties.shop
+				? $(".grid-content .info-panel .marker-rich-infos")
+						.html(` <div class="map-item">
+							<a href="${data.url}" class="title" target="_blank">${data.shop} (${newShop})</a><br/>
+							<i class="qualification">${data.qualification}</i>
+							<p class="adress">${data.adress}</p>
+							<a href="${data.url}" target="_blank" class="see-shop">Page infos <i class="fa-solid fa-chevron-right fa-size"></i></a>
+					 <i class="fa-solid fa-chevron-"></i>	  </div>
+				  `)
+				: "";
+		});
 
 		if (
 			layers.feature.geometry.type === "Polygon" ||
@@ -121,31 +128,33 @@ $.when(counties).done(function (doto) {
 			`<h4>${layers.feature.properties.nom} (${newDistributeursLength.length} Distributeur(s))</h4>`
 		);
 
+
 		if (
 			layers.feature.geometry.type === "Polygon" ||
 			layers.feature.geometry.type === "MultiPolygon"
 		) {
-			//Return datas by layer name
-			dataItems.forEach((data, index) => {
-				var { nom, shop, shopCode, adress, url, qualification } = data;
-				const shopCodeShort = shopCode;
-				let newShop = shopCodeShort.toString();
-				newShop = newShop.substring(0, 2);
-				if (nom === layers.feature.properties.nom) {
-					outputsData += `
+
+		//Return datas by layer name
+		dataItems.forEach((data,index) => {
+			var {nom, shop, shopCode, adress, url, qualification} = data;
+			const shopCodeShort = shopCode;
+			let newShop = shopCodeShort.toString();
+			newShop = newShop.substring(0, 2)
+			if(nom === layers.feature.properties.nom) {
+				outputsData += `
 						<div class="map-item">
-							<a href="${url}" class="title" target="_blank">${shop}(${newShop})</a><br/>
-							<i class="qualification">${qualification}</i>
-							<p class="adress">${adress}</p>
-							<a href="${url}" target="_blank" class="see-shop"> Page infos <i class="fa-solid fa-chevron-right fa-size"></i></a>
-					  	</div>
+						<a href="${url}" class="title" target="_blank">${shop}(${newShop})</a><br/>
+						<i class="qualification">${qualification}</i>
+						<p class="adress">${adress}</p>
+						<a href="${url}" target="_blank" class="see-shop"> Page infos <i class="fa-solid fa-chevron-right fa-size"></i></a>
+					  </div>
 					  `;
 
-					return $(".grid-content .info-panel .marker-rich-infos").html(
-						outputsData
-					);
-				}
-			});
+				return $(".grid-content .info-panel .marker-rich-infos").html(
+					outputsData
+				);
+			}
+		})
 		}
 
 		map.removeLayer(kyCounties);
@@ -192,6 +201,7 @@ $.when(counties).done(function (doto) {
 			});
 
 			function onEachFeature(feature, layer) {
+				const coords = [];
 				const { shop, shopCode, adress, url, nom, region } = feature.properties;
 				var popupContent = `<h3>${shop}</h3>`;
 
@@ -200,6 +210,11 @@ $.when(counties).done(function (doto) {
 					feature.properties.region === e.target.feature.properties.nom
 				) {
 					popupContent += feature.properties.popupContent;
+					//  coords.push(feature.geometry.coordinates)
+					//   L.Polygon(coords).addTo(box),
+					// layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>')
+				} else {
+					console.log("sorry");
 				}
 				layer.on({
 					click: openLayer,
@@ -254,8 +269,11 @@ $.when(counties).done(function (doto) {
 						? layer.on("click")
 						: layer.off("click");
 				}
+				//   if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
+				//     layer.bindPopup(`<h3>${nom}</h3>`, { closeButton: false, offset: L.point(0, -5) });
+				//  }
 			}
-			L.geoJSON(countiesDepartments.responseJSON, {
+			var departments = L.geoJSON(countiesDepartments.responseJSON, {
 				filter: function (feature, layer) {
 					var output = "";
 					if (
@@ -263,6 +281,12 @@ $.when(counties).done(function (doto) {
 						feature.properties.region === e.target.feature.properties.nom
 					) {
 						dataItems.push(feature.properties);
+
+						function removeDuplicates(arr) {
+							return arr.filter((item, index) => arr.indexOf(item) === index);
+						}
+						removeDuplicates(dataItems)
+
 
 						dataItems.map(function (data) {
 							dataItems.sort((a, b) => {
@@ -280,22 +304,24 @@ $.when(counties).done(function (doto) {
 
 							output += `
 								<div class="map-item">
-								<a href="${url}" class="title target="_blank">${shop}(${newShop})</a><br/>
+								<a href="${url}" class="title target="_blank">${shop} (${newShop})</a><br/>
 								<i class="qualification">${qualification}</i>
 								<p class="adress">${adress}</p>
 								<a href="${url}" target="_blank" class="see-shop">Page infos<i class="fa-solid fa-chevron-right fa-size"></i></a>
 					 			</div>`;
 							$(".grid-content .info-panel .marker-rich-infos").html(output);
 						});
+
 					}
 					if (
 						feature.geometry &&
 						feature.properties.region === e.target.feature.properties.nom
 					) {
 						// If the property "underConstruction" exists and is true, return false (don't render features under construction)
+						const num = 0;
 						var output = "";
 						newData.push(feature.geometry.type);
-
+						// console.log(newData)
 						dataItems.push(feature.properties.region);
 
 						newData.filter((datas) => {
@@ -329,9 +355,36 @@ $.when(counties).done(function (doto) {
 				click: zoomToFeature,
 				onEachFeature: onEachFeature
 			}).addTo(
-				nom !== "Centre-Val de Loire"
-					? boxToFly(box, nom)
-					: box.flyTo([47.670163564137, 2.1284487900515], 8)
+				box.flyTo(
+					nom === "Île-de-France"
+						? new L.LatLng(48.6485, 2.5755)
+						: "" || nom === "Centre-Val de Loire"
+						? L.LatLng(48.0497, 2.1018)
+						: "" || nom === "Bourgogne-Franche-Comté"
+						? new L.LatLng(47.280513, 4.999437)
+						: "" || nom === "Auvergne-Rhône-Alpes"
+						? new L.LatLng(45.56342, 4.834277)
+						: "" || nom === "Hauts-de-France"
+						? new L.LatLng(50.0925, 3.037256)
+						: "" || nom === "Grand Est"
+						? new L.LatLng(48.9575, 6.365)
+						: "" || nom === "Nouvelle-Aquitaine"
+						? new L.LatLng(45.8353, 1.2625)
+						: "" || nom === "Occitanie"
+						? new L.LatLng(43.704, 2.44305)
+						: "" || nom === "Provence-Alpes-Côte d'Azur" || nom === "Normandie"
+						? new L.LatLng(43.99471817979828, 7.007371525764465)
+						: ""
+						? new L.LatLng(43.8408, 6.27178)
+						: "" || nom === "Pays de la Loire"
+						? new L.LatLng(47.7632836, -0.3299687)
+						: "" || nom === "Bretagne"
+						? new L.LatLng(48.202, -2.9326)
+						: "" || nom === "Bretagne"
+						? new L.LatLng(48.202, -2.9326)
+						: "",
+					nom === "Île-de-France" ? 8.5 : 7.5
+				)
 			);
 		});
 	}
@@ -352,17 +405,58 @@ $.when(counties).done(function (doto) {
 		const { shop, shopCode, adress, url, nom, region, shops } =
 			feature.properties;
 
+		data.push(feature.geometry.type);
+
+		data.filter((datas) => {
+			if (
+				datas === "Polygon" ||
+				datas === "Point" ||
+				datas === "MultiPolygon"
+			) {
+				feature.properties.url ? shopMax.push(feature.properties) : shopMax;
+
+				data.pop();
+			}
+		});
+
 		shopMax.sort((a, b) => {
 			return a.shopCode - b.shopCode;
 		});
 
+		var popupContent = `<h3>${nom}</h3>`;
+
+		if (shopCode && shop) {
+			data.push(shop);
+			const shopLength = data.length;
+
+			outputShops += `<option value="${url}">Greatwood ${shop}</option>
+        `;
+			$("#shop_name").html(outputShops);
+		}
+		if (feature.properties && feature.properties.popupContent) {
+			popupContent += feature.properties.popupContent;
+		}
 		layer.on({
 			click: openLayer
 		});
 
 		if (feature.geometry.type === "Point") {
+			const nameData = [
+				"Île-de-France",
+				"Bourgogne-Franche-Comté",
+				"Hauts-de-France"
+			];
+			// console.log(layer);
+			for (var i = 0; i <= nameData.length; i++) {
+				feature.properties.region.includes(nameData[i])
+					? names.push(feature.properties.region)
+					: "";
+			}
 			layer.off("click");
 		} else {
+			feature.properties.isActived === 1
+				? console.log(feature.properties.nom)
+				: "";
 			feature.properties.isActived === 1
 				? layer.bindPopup(
 						`<div class="pink-color"><h3>${nom}</h3><p style="margin-top: -15px; font-size: 1.1em;">${
@@ -394,6 +488,17 @@ $.when(counties).done(function (doto) {
 	}
 
 	var kyCounties = L.geoJSON(counties.responseJSON, {
+		filter: function (feature, layer) {
+			if (feature.properties) {
+				// If the property "underConstruction" exists and is true, return false (don't render features under construction)
+				// console.log(feature.properties.shopCode);
+				return feature.properties.underConstruction !== undefined
+					? !feature.properties.underConstruction
+					: true;
+			}
+			return false;
+		},
+
 		style: style,
 		pointToLayer: function (feature, latlng) {
 			return new L.CircleMarker(
@@ -409,10 +514,11 @@ $.when(counties).done(function (doto) {
 		onEachFeature: onEachFeature
 	}).addTo(map);
 	map.fitBounds(kyCounties.getBounds());
+	map.fitBounds(departments.getBounds());
 });
 
-// ShowShops
-const showShops = (arr) => {
+// ShowUsers
+const showUsers = (arr) => {
 	let output = "";
 
 	arr.map((datas) => {
@@ -422,13 +528,13 @@ const showShops = (arr) => {
 		let newShop = shopCodeShort.toString();
 		newShop = newShop.substring(0, 2);
 		output += `
-			<div class="map-item">
-			    <a href="${url}" class="title target="_blank">${shop}(${newShop})</a><br/>
-				<i class="qualification">${qualification}</i>
-				<p class="adress">${adress}</p>
-				<a href="${url}" target="_blank" class="see-shop">Page infos <i class="fa-solid fa-chevron-right"></i> </a>
-			</div>
-		`;
+					<div class="map-item">
+						<a href="${url}" class="title target="_blank">${shop}(${newShop})</a><br/>
+						<i class="qualification">${qualification}</i>
+						<p class="adress">${adress}</p>
+						<a href="${url}" target="_blank" class="see-shop">Page infos <i class="fa-solid fa-chevron-right"></i> </a>
+					</div>
+			        `;
 	});
 	$(".grid-content .info-panel .context").html(
 		`<h4 class="title-shop">Points de distributions<br/> Super Retro Game magazine</h4> <div class="shop-values"><b>France</b> <span>(${
@@ -443,14 +549,14 @@ const showShops = (arr) => {
 document.addEventListener("DOMContentLoaded", fetchInitialMap);
 
 // Show UsersData
-function showShopsData(value, newShop) {
+function showUsersData(value, newUser) {
 	value == ""
 		? (document.querySelector(".context").innerHTML = null)
 		: (document.querySelector(
 				".context"
-		  ).innerHTML = `Votre recherche <b>"${value}"</b> a retourné ${newShop.length} distributeur(s)`);
+		  ).innerHTML = `Votre recherche <b>"${value}"</b> a retourné ${newUser.length} distributeur(s)`);
 
-	showShops(newShop);
+	showUsers(newUser);
 }
 
 // Show Search By Filter
@@ -458,7 +564,7 @@ function showSearchByFilter() {
 	const value = searchDatas.value;
 	const element = value.toLowerCase();
 
-	const newShop = datasShopCode[0].filter((datas) => {
+	const newUser = datasShopCode[0].filter((datas) => {
 		const newShopCode = datas.shopCode.toString();
 		const adress = datas.adress;
 
@@ -467,7 +573,7 @@ function showSearchByFilter() {
 			: (document.querySelector("#search-val").innerHTML = value) &&
 			  value.includes(newShopCode)
 			? (document.querySelector("#search-val").innerHTML = value)
-			: (searhcShopsVal.innerHTML = "sorry");
+			: (searchUserVal.innerHTML = "sorry");
 		return (
 			datas.shop.toLowerCase().includes(element) ||
 			datas.region.toLowerCase().includes(element) ||
@@ -475,16 +581,10 @@ function showSearchByFilter() {
 		);
 	});
 
-	showShopsData(value, newShop);
+	showUsersData(value, newUser);
 
-	layerActived === false ? showShopsData(value, newShop) : null;
+	layerActived === false ? showUsersData(value, newUser) : null;
 }
-var getRegion = "";
-var getShopName = "";
-var paths = [];
-var allPoints = [];
-var setRegions = [];
-var nomData = "";
 
 // Submit input text by pressing enter
 searchDatas.addEventListener("keypress", (e) => {
@@ -502,28 +602,6 @@ searchDatas.addEventListener("keyup", (e) => {
 		e.preventDefault();
 		showSearchByFilter();
 	}
-	if (searchDatas.value.length <= 0) {
-		var paths = document.querySelectorAll("#map path");
-		paths.forEach((classes, index) => {
-			classes.classList.contains("hide")
-				? classes.classList.remove("hide")
-				: "";
-			classes.classList.contains("activeLayer")
-				? classes.classList.remove("activeLayer")
-				: "";
-		});
-	}
-	L.geoJSON(counties.responseJSON, {
-		onEachFeature: function (feature, layer) {
-			if (
-				feature.geometry.type === "Point" &&
-				feature.properties.shop.includes(searchDatas.value)
-			) {
-				getRegion = feature.properties.region;
-				getShopName = searchDatas.value;
-			}
-		}
-	});
 });
 
 // Submit btn filter by click
@@ -531,101 +609,4 @@ submitBtn.addEventListener("click", (e) => {
 	// Cancel the default action, if needed
 	e.preventDefault();
 	showSearchByFilter();
-
-	L.geoJSON(counties.responseJSON, {
-		pointToPolygon: function (feature, latlng) {
-			return new L.Polygon(
-				latlng,
-				{
-					radius: 0,
-					opacity: 0,
-					className: "region"
-				},
-				{ draggable: false }
-			);
-		},
-		pointToLayer: function (feature, latlng) {
-			return new L.CircleMarker(
-				latlng,
-				{
-					radius: 0,
-					opacity: 0,
-					className: "circleMarker"
-				},
-				{ draggable: false }
-			);
-		},
-
-		onEachFeature: function (feature, layer) {
-			if (
-				feature.geometry.type === "Point" &&
-				searchDatas.value !== "" &&
-				feature.properties.shop.includes(searchDatas.value)
-			) {
-				nomData = feature.properties.region;
-				console.log(nomData);
-				setRegions.push(feature.properties.region);
-				map.eachLayer(function (layer) {
-					if (
-						layer instanceof L.CircleMarker &&
-						!(layer instanceof L.Rectangle)
-					) {
-						allPoints.push(layer);
-						allPoints.forEach((datas, index) => {
-							if (datas.feature.properties.shop.includes(getShopName)) {
-								datas._path.classList.add("show");
-								// console.log(datas._path);
-							} else {
-								datas._path.classList.add("hide");
-								// console.log(datas._path);
-							}
-						});
-					}
-				});
-			} else if (
-				feature.geometry.type === "Polygon" &&
-				feature.properties.nom.includes(getRegion)
-			) {
-				map.eachLayer(function (layer) {
-					if (layer instanceof L.Polygon && !(layer instanceof L.Rectangle)) {
-						paths.push(layer);
-						paths.forEach((datas, index) => {
-							if (setRegions.includes(datas.feature.properties.nom)) {
-								datas._path.classList.add("activeLayer");
-							} else {
-								datas._path.classList.remove("activeLayer");
-							}
-						});
-					}
-				});
-			}
-			if (
-				feature.geometry.type === "MultiPolygon" &&
-				feature.properties.nom.includes(getRegion) &&
-				searchDatas.value !== ""
-			) {
-				console.log("MULTIPOLYGONLAYER", layer);
-				map.eachLayer(function (layer) {
-					if (
-						layer instanceof L.Polygon &&
-						!(layer instanceof L.Rectangle) &&
-						searchDatas.value !== ""
-					) {
-						paths.push(layer);
-						paths.forEach((datas, index) => {
-							if (
-								setRegions.includes(datas.feature.properties.nom) &&
-								searchDatas.value !== ""
-							) {
-								datas._path.classList.add("activeLayer");
-								console.log(datas._path);
-							} else {
-								datas._path.classList.remove("activeLayer");
-							}
-						});
-					}
-				});
-			}
-		}
-	});
 });
