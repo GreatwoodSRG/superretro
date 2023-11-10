@@ -11,13 +11,23 @@ html,
 body {
 	overflow-x: hidden;
 	overflow: hidden;
+	line-height: 1.5;
 }
 body {
 	position: relative;
 	margin: 0;
 	padding: 0;
-	font-family: "roboto";
+	font-family: "Roboto";
 	background-color: #fff !important;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+.bold {
+	font-weight: bold;
 }
 
 .fa-size {
@@ -81,7 +91,7 @@ body {
 	position: relative;
 	right: 50px;
 	bottom: 0;
-	width: 350px;
+	width: 500px;
 	max-width: 90%;
 	padding: 20px 10px;
 	height: 500px;
@@ -116,12 +126,11 @@ body {
 	color: #004079 !important;
 	background-color: #fff;
 	border: none;
-	-webkit-box-shadow: inset 0 0 0 2px #004079;
-	-moz-box-shadow: inset 0 0 0 2px #004079;
 	box-shadow: inset 0 0 0 2px #004079;
 }
 
 .grid-content .map-item {
+	width: auto;
 	margin-top: 20px;
 	border-bottom: 1px solid #e0e0e0;
 	padding-bottom: 20px;
@@ -139,7 +148,7 @@ body {
 }
 .grid-content .map-item .title {
 	font-size: 1.3em;
-	font-weight: 900;
+	font-weight: 700;
 	color: #005773;
 }
 .grid-content .map-item a {
@@ -148,7 +157,8 @@ body {
 }
 
 .grid-content .map-item .qualification {
-	margin-top: 1px;
+	margin-bottom: 4px;
+	display: block;
 	text-transform: capitalize;
 	color: #005773;
 }
@@ -157,7 +167,7 @@ body {
 	transition: all 0.3s ease;
 	display: inline-block !important;
 	padding: 6px 12px;
-	margin-top: -10px;
+	margin-top: 10px;
 	color: #ffffff !important;
 	font-weight: bold;
 	background-color: #f0b31a;
@@ -171,8 +181,8 @@ body {
 	color: #fff !important;
 	background-color: #268699 !important;
 }
-.grid-content .map-item .adress {
-	margin-top: 8px;
+.grid-content .map-item .description {
+	
 	color: #005773;
 	font-weight: 500;
 }
@@ -276,7 +286,7 @@ label {
 	pointer-events: none;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
 	#map,
 	#box {
 		display: none;
@@ -288,11 +298,20 @@ label {
 		right: 0;
 		display: block;
 	}
+	.centered-container {
+		padding: 15px;
+	}
 	.filter {
 		max-width: 100%;
 	}
 	input {
-		max-width: 55%;
+		max-width: 78%;
+	}
+}
+
+@media screen and (max-width: 319px) {
+	input {
+		max-width: 74%;
 	}
 }
 
